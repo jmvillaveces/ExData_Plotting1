@@ -1,5 +1,6 @@
 library(dplyr)
 
+#Connection to zip file
 con <- unz('exdata-data-household_power_consumption.zip', 'household_power_consumption.txt')
 data <- read.table(con, header = T, sep = ';', colClasses=c('character', 'character', 'numeric', 'numeric', 'numeric', 'numeric', 'numeric', 'numeric', 'numeric'), na.strings = '?')
 
@@ -14,3 +15,8 @@ data <- filter(data, Date >= '2007-02-01' & Date <= '2007-02-02')
 
 #Time column as time obj
 data$Time <- strptime(data$Time, '%H:%M:%S %d/%m/%Y')
+
+#Create plot Global Active Power vs Time
+png('plot2.png')
+plot(data$Time, data$Global_active_power, type='l', ylab= 'Global Active Power (kilowatts)', xlab='')
+dev.off()
